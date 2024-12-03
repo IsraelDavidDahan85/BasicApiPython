@@ -13,10 +13,10 @@ class Logger():
         self.logger = logging.getLogger(name)
         level = getattr(logging, os.getenv('LOG_LEVEL', DEFAULT_LOG_LEVEL).upper())
         self.logger.setLevel(level)
-        logHandler = logging.StreamHandler()
+        log_handler = logging.StreamHandler()
         formatter = CustomJsonFormatter()
-        logHandler.setFormatter(formatter)
-        self.logger.addHandler(logHandler)
+        log_handler.setFormatter(formatter)
+        self.logger.addHandler(log_handler)
 
     def debug(self, msg, **kwargs):
         ex = {}

@@ -13,6 +13,18 @@ class UserServices:
             return user_schema.dump(user_model), user_model.token
         log.error('User not found', user=data['email'])
         return None, None
+
+    @staticmethod
+    def logout_user(data):
+        # get token from header Authorization
+        log.debug('logout_user')
+        token = data.headers["Authorization"].split(" ")[1]
+        user_model = UserModel().get_user_by_token(token)
+        if user_model:
+            user_model.delete_token()
+            log.info('User logged out', user=user_model.email)
+
+
     @staticmethod
     def register_user(data):
         log.info('register_user', data=data)
@@ -59,7 +71,7 @@ class UserServices:
         return user_schema.dump(user_model)
 
     @staticmethod
-    def delete_user(user_id):
+    def delete_user(user_id: int):
         user_model = UserModel()
         user_model.delete_user(user_id)
         return user_schema.dump(user_model)

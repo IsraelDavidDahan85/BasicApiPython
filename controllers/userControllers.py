@@ -37,7 +37,7 @@ class UserControllers:
     @staticmethod
     def delete_user(req):
         user_id = req.args.get('id')
-        return UserServices.delete_user(user_id)
+        return UserServices.delete_user(int(user_id))
 
     @staticmethod
     def get_all_users(req):
@@ -53,3 +53,7 @@ class UserControllers:
     @staticmethod
     def update_user_by_email(email, data):
         return UserServices.update_user_by_email(email, data)
+
+    @staticmethod
+    def logout_user(req):
+        return UserServices.logout_user(req)

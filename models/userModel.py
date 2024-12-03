@@ -43,11 +43,19 @@ class UserModel(db.Model):
         db.session.commit()
         return self.token
 
+    def delete_token(self):
+        self.token = None
+        db.session.commit()
+
+
     def get_all_users(self, limit: int, offset: int):
         return self.query.limit(limit).offset(offset).all()
 
     def get_user_by_id(self, user_id: int):
         return self.query.filter_by(id=user_id).first()
+
+    def get_user_by_token(self, token: str):
+        return self.query.filter_by(token=token).first()
 
     def get_user_by_email(self, email: str):
         return self.query.filter_by(email=email).first()
@@ -67,7 +75,8 @@ class UserModel(db.Model):
         db.session.commit()
         return self
 
-    def delete_user(self, user_id: int):
+    @staticmethod
+    def delete_user(user_id: int):
         user = db.query.filter_by(id=user_id).first()
         db.session.delete(user)
         db.session.commit()
